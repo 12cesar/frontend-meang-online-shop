@@ -22,11 +22,11 @@ export class UsersService extends ApiService {
     );
   }
   register(user: IRegisterForm) {
-    return this.set(REGISTER_USER,{
+    return this.set(REGISTER_USER, {
       user,
-      include:false,
+      include: false,
     }).pipe(
-      map((result:any)=>{
+      map((result: any) => {
         return result.register;
       })
     );
