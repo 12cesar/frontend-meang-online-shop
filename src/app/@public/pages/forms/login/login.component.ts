@@ -19,12 +19,10 @@ export class LoginComponent {
   constructor(private auth: AuthService, private router: Router) {}
 
   init() {
-    console.log(this.login);
     this.auth
       .login(this.login.email, this.login.password)
       // tslint:disable-next-line: deprecation
       .subscribe((result: IResultLogin) => {
-        console.log(result);
         if (result.status) {
           if (result.token !== null) {
             // Guardamos la sesion

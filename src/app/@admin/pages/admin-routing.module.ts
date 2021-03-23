@@ -8,22 +8,29 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivateChild:[AdminGuard],
-    children:[
+    canActivateChild: [AdminGuard],
+    children: [
       {
         path: '',
-        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+        loadChildren: () =>
+          import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
         path: 'users',
-        loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
-      }
-    ]
-  }
+        loadChildren: () =>
+          import('./users/users.module').then((m) => m.UsersModule),
+      },
+      {
+        path: 'genres',
+        loadChildren: () =>
+          import('./genres/genres.module').then((m) => m.GenresModule),
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}

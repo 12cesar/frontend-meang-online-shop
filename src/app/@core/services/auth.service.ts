@@ -8,20 +8,21 @@ import { IMedata, ISession } from '@core/interfaces/session.interface';
 import { Subject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class AuthService extends ApiService{
-  accessVar=new Subject<IMedata>();
-  accessVar$=this.accessVar.asObservable();
-  constructor(apollo:Apollo) { 
+export class AuthService extends ApiService {
+  accessVar = new Subject<IMedata>();
+  accessVar$ = this.accessVar.asObservable();
+  constructor(apollo: Apollo) {
     super(apollo);
   }
-  updateSession(newValue: IMedata){
+  updateSession(newValue: IMedata) {
     this.accessVar.next(newValue);
   }
-  start(){
-    if (this.getSession()!==null) {
-      this.getMe().subscribe((result:IMedata) => {
+  start() {
+    if (this.getSession() !== null) {
+      // tslint:disable-next-line: deprecation
+      this.getMe().subscribe((result: IMedata) => {
         if (!result.status) {
           this.resetSession();
           return;
@@ -32,48 +33,53 @@ export class AuthService extends ApiService{
       return;
     }
     this.updateSession({
-      status: false
+      status: false,
     });
     console.log('Sesion no iniciada');
   }
-  
+
   // Añadir metodos para consumir la api
   login(email: string, password: string) {
-    return this.get(LOGIN_QUERY,{email,password,include:false}).pipe(map((result:any) => {
-      return result.login;
-    }));
-  }
-  
-  getMe() {
-    return this.get(ME_DATA_QUERY,{include:false},{
-      headers: new HttpHeaders({
-        Authorization:
-          (this.getSession() as ISession).token
+    return this.get(LOGIN_QUERY, { email, password, include: false }).pipe(
+      map((result: any) => {
+        return result.login;
       })
-    }).pipe(map((result:any)=>{
-      return result.me;
-    }));
+    );
   }
 
-  setSession(token:string, expiresTimeInHours=24){
-    const date=new Date();
-    date.setHours(date.getHours()+expiresTimeInHours);
-    const session: ISession ={
-      expiresIn:new Date(date).toISOString(),
+  getMe() {
+    return this.get(
+      ME_DATA_QUERY,
+      { include: false },
+      {
+        headers: new HttpHeaders({
+          Authorization: (this.getSession() as ISession).token,
+        }),
+      }
+    ).pipe(
+      map((result: any) => {
+        return result.me;
+      })
+    );
+  }
+
+  setSession(token: string, expiresTimeInHours = 24) {
+    const date = new Date();
+    date.setHours(date.getHours() + expiresTimeInHours);
+    const session: ISession = {
+      expiresIn: new Date(date).toISOString(),
       token,
     };
     localStorage.setItem('session', JSON.stringify(session));
-    
   }
-  getSession():ISession{
+  getSession(): ISession {
     return JSON.parse(localStorage.getItem('session'));
   }
-  resetSession(){
+  resetSession() {
     localStorage.removeItem('session');
     this.updateSession({
-      status:false
+      status: false,
     });
-
   }
 }
 
