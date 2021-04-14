@@ -9,14 +9,14 @@
                 </p>
                 <hr />
                 <label for="name"><b>Nombre</b></label>
-                <input type="text" placeholder="Introdusca su nombre" name="name" #name="ngModel" [(ngModel)]="register.name" class="form-control" [ngClass]="{'is-valid':name.valid,'is-invalid':name.invalid}" required/>
+                <input type="text" placeholder="Introdusca su nombre" name="name" #name="ngModel" [(ngModel)]="register.name" class="form-control" [ngClass]="{'is-valid':name.valid,'is-invalid':name.invalid}" required />
                 <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
                     <div *ngIf="name.errors.required">
                         Introduzca un nombre por favor
                     </div>
                 </div>
                 <label for="lastname"><b>Apellido / s</b></label>
-                <input type="text" placeholder="Introdusca su apellido" name="lastname" #lastname="ngModel" [(ngModel)]="register.lastname" class="form-control" [ngClass]="{'is-valid':lastname.valid,'is-invalid':lastname.invalid}" required/>
+                <input type="text" placeholder="Introdusca su apellido" name="lastname" #lastname="ngModel" [(ngModel)]="register.lastname" class="form-control" [ngClass]="{'is-valid':lastname.valid,'is-invalid':lastname.invalid}" required />
                 <div class="alert alert-danger" *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)">
                     <div *ngIf="lastname.errors.required">
                         Introduzca un apellido o apellidos por favor
@@ -25,8 +25,7 @@
                 <label for="edad"><b>Fecha de nacimiento</b></label>
                 <app-date-picker-legal-age (newDate)="dataAsing($event)"></app-date-picker-legal-age>
                 <label for="email"><b>Email</b></label>
-                <input type="email" placeholder="Introdusca su Email" name="email" #email="ngModel" [(ngModel)]="register.email" class="form-control" [ngClass]="{'is-valid':email.valid,'is-invalid':email.invalid}" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-                    required />
+                <input type="email" placeholder="Introdusca su Email" name="email" #email="ngModel" [(ngModel)]="register.email" class="form-control" [ngClass]="{'is-valid':email.valid,'is-invalid':email.invalid}" [pattern]="emailPattern" required />
                 <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
                     <div *ngIf="email.errors.required">
                         Introduzca una email por favor
@@ -36,7 +35,7 @@
                     </div>
                 </div>
                 <label for="password"><b>Password</b></label>
-                <input type="password" placeholder="Introdusca la contraseña" name="password" #password="ngModel" [(ngModel)]="register.password" class="form-control" [ngClass]="{'is-valid':password.valid,'is-invalid':password.invalid}" required/>
+                <input type="password" placeholder="Introdusca la contraseña" name="password" #password="ngModel" [(ngModel)]="register.password" class="form-control" [ngClass]="{'is-valid':password.valid,'is-invalid':password.invalid}" required />
                 <div class="alert alert-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
                     <div *ngIf="password.errors.required">
                         Introduzca una Contraseña por favor
@@ -48,17 +47,16 @@
                 </p>
                 <p>
                     ¿Ya tiene una cuenta?
-                    <a [routerLink]="['/login']" style="color: dodgerblue;">Iniciar sesión</a
-            >.
-          </p>
-          <div class="row">
-            <div class="col-lg">
-              <button [disabled]="forma.invalid" type="submit" class="signup-btn">Registrarse</button>
-            </div>
-          </div>
-        </form>
-      </div>
+                    <a [routerLink]="['/login']" style="color: dodgerblue;">Iniciar sesión</a>.
+                </p>
+                <div class="row">
+                    <div class="col-lg">
+                        <button [disabled]="forma.invalid" type="submit" class="signup-btn">Registrarse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-      <div class="col-lg"></div>
+        <div class="col-lg"></div>
     </div>
-  </div>
+</div>

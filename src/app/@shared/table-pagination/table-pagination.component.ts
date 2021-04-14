@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DocumentNode } from 'graphql';
 import { TablePaginationService } from './table-pagination.service';
 import { USER_LIST_QUERY } from '@graphql/operations/query/user';
@@ -8,7 +8,6 @@ import { IInfoPage, IResultData } from '@core/interfaces/result-data.interface';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { ITableColumns } from '../../@core/interfaces/table-columns.interface';
-
 @Component({
   selector: 'app-table-pagination',
   templateUrl: './table-pagination.component.html',
@@ -21,6 +20,8 @@ export class TablePaginationComponent implements OnInit {
   @Input() include = false;
   @Input() resultData: IResultData;
   @Input() tableColumns: Array<ITableColumns> = undefined;
+  @Output() manageItem = new EventEmitter<Array<any>>();
+
   infoPage: IInfoPage;
   data$: Observable<any>;
   constructor(private service: TablePaginationService) {}
@@ -52,16 +53,18 @@ export class TablePaginationComponent implements OnInit {
     // tslint:disable-next-line: deprecation
     this.data$ = this.service.getCollectionData(this.query, variables, {}).pipe(
       map((result: any) => {
-        const data=result[this.resultData.definitionKey];
-        this.infoPage.pages=data.info.pages;
-        this.infoPage.total=data.info.total;
+        const data = result[this.resultData.definitionKey];
+        this.infoPage.pages = data.info.pages;
+        this.infoPage.total = data.info.total;
         return data[this.resultData.listKey];
     }
     ));
   }
   changePage(){
-    console.log(this.infoPage.page);
-    
     this.loadData();
+  }
+  manageAction(action: string, data: any){
+    console.log(action, data);
+    this.manageItem.emit([action, data]);
   }
 }
