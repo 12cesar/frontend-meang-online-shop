@@ -20,9 +20,8 @@
 </div>
 
 <div class="d-flex justify-content-between p-2">
-    <ngb-pagination [collectionSize]="infoPage.total" [(page)]="infoPage.page" (pageChange)="changePage()" [pageSize]="infoPage.itemsPage">
-    </ngb-pagination>
-
+    
+    <ngb-pagination [collectionSize]="infoPage.total" [(page)]="infoPage.page" (pageChange)="changePage()" [pageSize]="infoPage.itemsPage" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
     <select class="custom-select" style="width: auto" [(ngModel)]="infoPage.itemsPage" (ngModelChange)="loadData()">
         <option [ngValue]="5">5 items per page</option>
         <option [ngValue]="10">10 items per page</option>

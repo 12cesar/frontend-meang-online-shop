@@ -20,7 +20,7 @@ export async function formBasicDialog(
         if (value) {
             return value;
         }
-        Swal.showValidationMessage('Tienes que añadir un genero para poder almacenarlo');
+        Swal.showValidationMessage(`Tienes que ${title} para poder almacenarlo`);
         return;
     },
   });
