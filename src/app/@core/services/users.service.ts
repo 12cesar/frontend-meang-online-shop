@@ -1,3 +1,5 @@
+import { HttpHeaders } from '@angular/common/http';
+import { ACTIVE_USER } from '@graphql/operations/mutation/user';
 import { Injectable } from '@angular/core';
 import { IRegisterForm } from '@core/interfaces/register.interface';
 import { REGISTER_USER } from '@graphql/operations/mutation/user';
@@ -30,5 +32,19 @@ export class UsersService extends ApiService {
         return result.register;
       })
     );
+  }
+  active(token: string, birthday: string, password: string){
+    const user = JSON.parse(atob(token.split('.')[1])).user;
+    return this.set(ACTIVE_USER, {
+      id: user.id,
+      birthday,
+      password
+    },{
+      headers: new HttpHeaders({
+        Authorization: token
+      })
+    }).pipe(map((result: any) =>{
+      return result.activeUserAction;
+    }));
   }
 }

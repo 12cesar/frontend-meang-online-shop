@@ -8,7 +8,7 @@ export function basicAlert(icon = TYPE_ALERT.SUCCESS, title: string = '') {
     toast: true,
     position: 'top',
     showConfirmButton: false,
-    timer: 1500,
+    timer: 3000,
     timerProgressBar: true,
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer);
