@@ -83,6 +83,7 @@ export async function optionsWithDetails(
     if (result.isConfirmed) {
       return true;
     } else if (result.dismiss.toString() === 'cancel') {
+      console.log(cancelButtonText);
       return false;
     }
   });
