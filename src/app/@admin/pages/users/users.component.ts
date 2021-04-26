@@ -108,7 +108,8 @@ export class UsersComponent implements OnInit {
         if (result) {
           this.updateForm(html, user);
         } else if (result === false) {
-          this.unblockForm(user, false);
+          const unblock = (user.active !== false) ? false : true;
+          this.unblockForm(user, unblock);
         }
         break;
       case 'block':
