@@ -99,16 +99,16 @@ export class UsersComponent implements OnInit {
           'Detalles',
           `<i class="fas fa-user-tag"></i>&nbsp;&nbsp ${user.name} ${user.lastname} <br>
           <i class="fas fa-envelope-open-text"></i>&nbsp;&nbsp ${user.email}`,
-          (user.active!==false) ? 400 : 400,
+          (user.active !== false) ? 400 : 400,
           '<i class="fas fa-edit"></i> Editar', // true
-          (user.active!==false) ? 
+          (user.active !== false) ?
           '<i class="fas fa-lock"></i> Bloquear' :
           '<i class="fas fa-lock-open"></i> Desbloquear'// fale
         );
         if (result) {
           this.updateForm(html, user);
         } else if (result === false) {
-          this.unblockForm(user,false);
+          this.unblockForm(user, false);
         }
         break;
       case 'block':
@@ -138,9 +138,10 @@ export class UsersComponent implements OnInit {
       this.service.register(user).subscribe((res: any) => {
         if (res.status) {
           basicAlert(TYPE_ALERT.SUCCESS, res.message);
-          this.service.sendEmailActive(res.user.id, user.email).subscribe(resEmail=>{
+          // tslint:disable-next-line: deprecation
+          this.service.sendEmailActive(res.user.id, user.email).subscribe(resEmail => {
             (resEmail.status) ?
-            basicAlert(TYPE_ALERT.SUCCESS, resEmail.message):
+            basicAlert(TYPE_ALERT.SUCCESS, resEmail.message) :
             basicAlert(TYPE_ALERT.WARNING, resEmail.message);
           });
           return;
@@ -150,7 +151,7 @@ export class UsersComponent implements OnInit {
       });
     }
   }
-  private async updateForm(html:string, user: any){
+  private async updateForm(html: string, user: any){
     const result = await userFormBasicDialog('Modificar Usuario', html);
     console.log(result);
     this.updateUser(result, user.id);
@@ -179,7 +180,7 @@ export class UsersComponent implements OnInit {
       500,
       'No, no desbloquear',
       'Si, desbloquear'
-    ):await optionsWithDetails(
+    ) : await optionsWithDetails(
       '¿Bloquear?',
       `Si bloqueas el usuario seleccionado no se mostrara en la lista`,
       500,
@@ -188,7 +189,7 @@ export class UsersComponent implements OnInit {
     );
     if (result === false) {
       // Si resultado falso queremos bloquear o desbloquear
-      this.unblockUser(user.id,unblock,true);
+      this.unblockUser(user.id, unblock, true);
     }
   }
   private unblockUser(id: string, unblock: boolean = false, admin: boolean = false){
