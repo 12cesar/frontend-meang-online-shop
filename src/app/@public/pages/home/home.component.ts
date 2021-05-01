@@ -1,9 +1,7 @@
-import { IProduct } from '@mugan86/ng-shop-ui/lib/interfaces/product.interface';
 import { Component, OnInit } from '@angular/core';
 import { ICarouselItem } from '@mugan86/ng-shop-ui/lib/interfaces/carousel-item.interface';
-import carouselItems from '@data/carousel.json';
 import { ProductsService } from '@core/services/products.service';
-import { ACTIVE_FILTERS } from '@core/constants/filter';
+import { loadData, closeAlert } from '@shared/alert/alerts';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,46 +13,33 @@ export class HomeComponent implements OnInit {
   listOne;
   listTwo;
   listThree;
+  loading: boolean;
   constructor(private products: ProductsService) {}
 
   ngOnInit(): void {
-    this.products.getByPlatform(
-      1, 4, ACTIVE_FILTERS.ACTIVE, true, '18'
+    this.loading = true;
+    loadData('Cargando datos', 'Espera mientras carga la informacion');
     // tslint:disable-next-line: deprecation
-    ).subscribe(result => {
-      console.log('Productos PS4', result);
-      this.listOne = result;
+    this.products.getHomePage().subscribe((data) => {
+      this.listOne = data.ps4;
+      this.listTwo = data.topPrice;
+      this.listThree = data.pc;
+      this.items = this.manageCarouel(data.carousel);
+      closeAlert();
+      this.loading = false;
     });
-    this.products.getByPlatform(
-      1, 4, ACTIVE_FILTERS.ACTIVE, true, '4'
-    // tslint:disable-next-line: deprecation
-    ).subscribe(result => {
-      console.log('Productos PC', result);
-      this.listThree = result;
+  }
+  private manageCarouel(list) {
+    const itemsValues: Array<ICarouselItem> = [];
+    list.shopProducts.map((item) => {
+      itemsValues.push({
+        id: item.id,
+        title: item.product.name,
+        description: item.platform.name,
+        background: item.product.img,
+        url: '',
+      });
     });
-    this.products.getByLastUnitsOffers(
-      1, 4, ACTIVE_FILTERS.ACTIVE, true, 35, 40
-    // tslint:disable-next-line: deprecation
-    ).subscribe(result => {
-      console.log('Productos a menos de 40', result);
-      this.listTwo = result;
-    });
-    this.products.getByLastUnitsOffers(
-      1,6, ACTIVE_FILTERS.ACTIVE, true, -1,100
-    // tslint:disable-next-line: deprecation
-    ).subscribe(
-      (result: IProduct[]) => {
-        result.map((item: IProduct) => {
-          this.items.push({
-            id: item.id,
-            title: item.name,
-            description: item.description,
-            background: item.img,
-            url: ''
-          });
-        });
-      }
-    );
-    // this.items = carouselItems;
+    return itemsValues;
   }
 }

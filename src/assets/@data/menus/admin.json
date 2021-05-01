@@ -1,0 +1,22 @@
+[
+    {
+        "url": "/admin",
+        "label": "Dashboard",
+        "icon": "fas fa-columns"
+    },
+    {
+        "url": "/admin/users",
+        "label": "Users",
+        "icon": "fas fa-id-card"
+    },
+    {
+        "url": "/admin/genres",
+        "label": "Genres",
+        "icon": "fas fa-dna"
+    },
+    {
+        "url": "/admin/tags",
+        "label": "Tags",
+        "icon": "fas fa-tags"
+    }
+]

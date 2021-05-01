@@ -1,13 +1,14 @@
 import Swal from 'sweetalert2';
 import { EMAIL_PATTERN } from '../../@core/constants/regex';
 
-const swalWithBasicOptions = (title: string, html: string) => Swal.mixin({
+const swalWithBasicOptions = (title: string, html: string) =>
+  Swal.mixin({
     title,
     html,
     focusConfirm: false,
     cancelButtonText: 'Cancelar',
     showCancelButton: true,
-});
+  });
 
 export async function formBasicDialog(
   title: string,
@@ -16,49 +17,48 @@ export async function formBasicDialog(
 ) {
   return await swalWithBasicOptions(title, html).fire({
     preConfirm: () => {
-        const value = (document.getElementById('name') as HTMLInputElement).value;
-        if (value) {
-            return value;
-        }
-        Swal.showValidationMessage(`Tienes que ${title} para poder almacenarlo`);
-        return;
+      const value = (document.getElementById('name') as HTMLInputElement).value;
+      if (value) {
+        return value;
+      }
+      Swal.showValidationMessage(`Tienes que ${title} para poder almacenarlo`);
+      return;
     },
   });
 }
-export async function userFormBasicDialog(
-  title: string,
-  html: string
-) {
+export async function userFormBasicDialog(title: string, html: string) {
   return await swalWithBasicOptions(title, html).fire({
     preConfirm: () => {
-        let error = '';
-        const name = (document.getElementById('name') as HTMLInputElement).value;
-        if (!name) {
-            error += 'Usuario es obligatorio<br/>';
-        }
-        const lastname = (document.getElementById('lastname') as HTMLInputElement).value;
-        if (!lastname) {
-            error += 'Apellido es obligatorio<br/>';
-        }
-        const email = (document.getElementById('email') as HTMLInputElement).value;
-        if (!email) {
-            error += 'Email es obligatorio<br/>';
-        }
-        if (!EMAIL_PATTERN.test(email)) {
-          error += 'Email no es correcto en su formato';
-        }
-        const role = (document.getElementById('role') as HTMLInputElement).value;
-        if (error !== '') {
-          Swal.showValidationMessage(error);
-          return;
-        }
-        return{
-          name,
-          lastname,
-          email,
-          role,
-          birthday: new Date().toISOString()
-        };
+      let error = '';
+      const name = (document.getElementById('name') as HTMLInputElement).value;
+      if (!name) {
+        error += 'Usuario es obligatorio<br/>';
+      }
+      const lastname = (document.getElementById('lastname') as HTMLInputElement)
+        .value;
+      if (!lastname) {
+        error += 'Apellido es obligatorio<br/>';
+      }
+      const email = (document.getElementById('email') as HTMLInputElement)
+        .value;
+      if (!email) {
+        error += 'Email es obligatorio<br/>';
+      }
+      if (!EMAIL_PATTERN.test(email)) {
+        error += 'Email no es correcto en su formato';
+      }
+      const role = (document.getElementById('role') as HTMLInputElement).value;
+      if (error !== '') {
+        Swal.showValidationMessage(error);
+        return;
+      }
+      return {
+        name,
+        lastname,
+        email,
+        role,
+        birthday: new Date().toISOString(),
+      };
     },
   });
 }
@@ -78,7 +78,7 @@ export async function optionsWithDetails(
     confirmButtonColor: '#6c757d',
     cancelButtonColor: '#dc3545',
     confirmButtonText,
-    cancelButtonText
+    cancelButtonText,
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -88,3 +88,16 @@ export async function optionsWithDetails(
     }
   });
 }
+
+export const loadData = (title: string, html: string) => {
+  Swal.fire({
+    title,
+    html,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+};
+export const closeAlert = () => {
+  Swal.close();
+};
