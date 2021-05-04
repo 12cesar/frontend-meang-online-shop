@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 export const HOME_PAGE = gql`
   query HomePageInfo(
     $showPlatform: Boolean = false
+    $relationScreens: Boolean = false
   ) {
     carousel: shopProductsOffersLast(itemsPage: 6, topPrice: 30, random: true) {
       shopProducts {

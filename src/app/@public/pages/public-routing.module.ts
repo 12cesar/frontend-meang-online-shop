@@ -7,10 +7,18 @@ const routes: Routes = [
   {
     path: '',
     component: PublicComponent,
-    children:[
+    children: [
       {
         path: '',
         loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+      },
+      {
+        path: 'games/details/:id',
+        loadChildren: () => import('./games/details/details.module').then(m => m.DetailsModule)
+      },
+      {
+        path: 'games/:type/:filter',
+        loadChildren: () => import('./games/games.module').then(m => m.GamesModule)
       },
       {
         path: 'contact',
@@ -35,10 +43,6 @@ const routes: Routes = [
       {
         path: 'reset/:token',
         loadChildren: () => import('./forms/change-password/change-password.module').then(m => m.ChangePasswordModule)
-      },
-      {
-        path: 'games/:type/:filter',
-        loadChildren: () => import('./games/games.module').then(m => m.GamesModule)
       }
     ]
   }
