@@ -36,7 +36,6 @@ export class CartService {
     const productTotal = this.cart.products.length;
     // Comprobamos si tiene producto
     if (productTotal === 0) {
-      console.log('Añadiendo el primer producto');
       this.cart.products.push(product);
     } else {
       let actionUpdateOk = false;
@@ -44,9 +43,7 @@ export class CartService {
       for (let i = 0; i < productTotal; i++) {
         // Comprobar que coincide el producto con alguno de la lista
         if (product.id === this.cart.products[i].id) {
-          console.log('Producto existente y vamos a gestionar');
           if (product.qty === 0) {
-            console.log('Borrar item seleccionado');
             // Quitar elemento
             this.cart.products.splice(i, 1);
           } else {
@@ -76,7 +73,6 @@ export class CartService {
 
     this.cart.total = total;
     this.cart.subtotal = subtotal;
-    console.log(this.cart, 'calculado');
     this.setInfo();
   }
   clear() {
@@ -86,9 +82,7 @@ export class CartService {
       subtotal: 0,
       products: [],
     };
-    console.log(this.cart);
-    this.checkoutTotal();
-    console.log('Hemos borrado la informacion');
+    this.setInfo();
     return this.cart;
   }
   private setInfo() {

@@ -26,7 +26,6 @@ export class ShoppingCartComponent implements OnInit {
     this.cart = this.cartService.initialize();
   }
   clear(product: Array<IProduct>) {
-
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < product.length; i++) {
       product[i].qty = 0;
