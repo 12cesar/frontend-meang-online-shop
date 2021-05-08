@@ -1,8 +1,9 @@
-<div class="container games" *ngIf="infoPage && !loading">
+<div class="container" *ngIf="infoPage && !loading">
   <app-product-category-list
     [title]="gamesPageInfo.title"
     [productsList]="productsList"
     [description]="gamesPageInfo.description"
+    [showDesc]="true"
   ></app-product-category-list>
   <div class="d-flex justify-content-between p-2">
     <ngb-pagination

@@ -3,6 +3,7 @@ import { IMenuItem } from '@core/interfaces/menu-item.interface';
 import { IMedata } from '@core/interfaces/session.interface';
 import { AuthService } from '@core/services/auth.service';
 import shopMenuItems from '@data/menus/shop.json';
+import { CartService } from '@shop/core/services/cart.service.ts.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -16,7 +17,7 @@ session: IMedata = {
 access = false;
 role: string;
 userLabel = '';
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private cartService: CartService) {
     // tslint:disable-next-line: deprecation
     this.authService.accessVar$.subscribe((result) => {
       console.log(result.status);
@@ -31,6 +32,9 @@ userLabel = '';
   }
   logout(){
     this.authService.resetSession();
+  }
+  open(){
+    this.cartService.open();
   }
 
 }
