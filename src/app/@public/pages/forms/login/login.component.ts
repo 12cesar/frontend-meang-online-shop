@@ -26,9 +26,13 @@ export class LoginComponent {
         if (result.status) {
           if (result.token !== null) {
             // Guardamos la sesion
-            basicAlert(TYPE_ALERT.SUCCESS, result.message);
             this.auth.setSession(result.token);
             this.auth.updateSession(result);
+            if (localStorage.getItem('route_after_login')) {
+              this.router.navigate([localStorage.getItem('route_after_login')]);
+              localStorage.removeItem('route_after_login');
+              return;
+            }
             this.router.navigate(['/home']);
             return;
           }

@@ -25,6 +25,10 @@ const routes: Routes = [
         loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule)
       },
       {
+        path: 'checkout',
+        loadChildren: () => import('./forms/checkout/checkout.module').then(m => m.CheckoutModule)
+      },
+      {
         path: 'login',
         loadChildren: () => import('./forms/login/login.module').then(m => m.LoginModule)
       },
