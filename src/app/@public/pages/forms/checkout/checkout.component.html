@@ -1,21 +1,23 @@
-<div class="container mt-5" *ngIf="meData">
+<div class="container mt-5" *ngIf="meData && available">
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
-        <app-checkout-resume></app-checkout-resume>
+            <app-checkout-resume></app-checkout-resume>
         </div>
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Informacion de pago</h4>
             <hr>
-            <form class="needs-validation" novalidate="">
+            <form class="needs-validation"  (ngSubmit)="takeToken()" #forma="ngForm">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label >Nombre</label><br>
-                        <input type="text" class="form-control" id="firstName" placeholder="" [value]="meData.user.name" required="" disabled>
+                        <label>Nombre</label><br>
+                        <input type="text" class="form-control" id="firstName" placeholder="" [value]="meData.user.name"
+                            required="" disabled>
                         <!-- <span>Julio</span> -->
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label >Apellido/s</label><br>
-                        <input type="text" class="form-control" id="lastName" placeholder="" [value]="meData.user.lastname" required="" disabled>
+                        <label>Apellido/s</label><br>
+                        <input type="text" class="form-control" id="lastName" placeholder=""
+                            [value]="meData.user.lastname" required="" disabled>
                         <!-- <span>Calderon Galindo</span> -->
                     </div>
                 </div>
@@ -23,54 +25,28 @@
                 <div class="mb-3">
                     <label>Email</label><br>
                     <!-- <span>juliocesar.calderong@gmail.com</span> -->
-                    <input type="email" class="form-control" id="email" placeholder="" [value]="meData.user.email" required="" disabled>
+                    <input type="email" class="form-control" id="email" placeholder="" [value]="meData.user.email"
+                        required="" disabled>
                 </div>
 
                 <div class="mb-3">
                     <label for="address">Direccion de entrega</label>
-                    <textarea cols="50" rows="4" type="text" class="form-control" id="address" placeholder="1234 Main St" required=""></textarea>
+                    <textarea cols="50" rows="4" type="text" class="form-control" id="address"
+                        #addressData="ngModel" [(ngModel)]="address" name="address" [ngClass]="{'is-valid': !addressData.invalid, 'is-invalid': addressData.invalid}" required=""></textarea>
                     <div class="invalid-feedback">
-                        Please enter your shipping address.
+                        Por favor introduzca su direccion.
                     </div>
                 </div>
 
                 <h4 class="mb-3">Informacion de la tarjeta</h4>
 
                 <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="cc-name">Name on card</label>
-                        <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-                        <small class="text-muted">Full name as displayed on card</small>
-                        <div class="invalid-feedback">
-                            Name on card is required
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="cc-number">Credit card number</label>
-                        <input type="text" class="form-control" id="cc-number" placeholder="" required="">
-                        <div class="invalid-feedback">
-                            Credit card number is required
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label for="cc-expiration">Expiration</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
-                        <div class="invalid-feedback">
-                            Expiration date required
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="cc-cvv">CVV</label>
-                        <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
-                        <div class="invalid-feedback">
-                            Security code required
-                        </div>
+                    <div class="col-lg mb-3">
+                        <ng-stripe-pay-form [key]="key" [hidePostalCode]="true"></ng-stripe-pay-form>
                     </div>
                 </div>
                 <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                <button class="signup-btn" [disabled]="!forma.valid || block" (click)="takeToken()" type="submit" >Pagar Pedido</button>
             </form>
         </div>
     </div>

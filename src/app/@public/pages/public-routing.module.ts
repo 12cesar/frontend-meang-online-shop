@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ShopGuard } from '@core/guards/shop.guard';
 import { PublicComponent } from './public.component';
 
 
@@ -26,7 +27,13 @@ const routes: Routes = [
       },
       {
         path: 'checkout',
-        loadChildren: () => import('./forms/checkout/checkout.module').then(m => m.CheckoutModule)
+        loadChildren: () => import('./forms/checkout/checkout.module').then(m => m.CheckoutModule),
+        canActivate: [ShopGuard]
+      },
+      {
+        path: 'orders',
+        loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule),
+        canActivate: [ShopGuard]
       },
       {
         path: 'login',

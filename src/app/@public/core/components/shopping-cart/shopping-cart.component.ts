@@ -26,12 +26,9 @@ export class ShoppingCartComponent implements OnInit {
   ngOnInit(): void {
     this.cart = this.cartService.initialize();
   }
-  clear(product: Array<IProduct>) {
+  clear() {
     // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < product.length; i++) {
-      product[i].qty = 0;
-      this.manageProductUnitInfo(0, product[i]);
-    }
+    this.cartService.clear();
   }
   clearItem(product: IProduct) {
     product.qty = 0;
