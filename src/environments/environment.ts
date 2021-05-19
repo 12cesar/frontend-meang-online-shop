@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   backend: 'http://localhost:2002/graphql',
+  backendWs: 'ws://gamezonia-online.herokuapp.com/graphql',
   stripePublicKey: 'pk_test_51IppknF7ZssJSc12aYT2CmzsbPnMm9td4RjgDzBrG4tQ9oRGW6qe4JKJjkysBRAzE1jSLk6GYZG4xgo6qC3q5Dbh00jvdiBWkq'
 };
 

@@ -32,7 +32,7 @@ export class GraphqlModule {
       httplink.create({uri})
     ]);
     const subscriptionLin = new WebSocketLink({
-      uri: 'ws://localhost:2002/graphql',
+      uri: environment.backendWs,
       options: {
         reconnect: true
       }
