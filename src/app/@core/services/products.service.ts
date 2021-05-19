@@ -11,6 +11,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { IProduct } from '@mugan86/ng-shop-ui/lib/interfaces/product.interface';
 import { DETAILS_PAGE } from '@graphql/operations/query/details-page';
 import { HOME_PAGE } from '@graphql/operations/query/home-page';
+import { SUBSCRIPTIONS_PRODUCT_SELECT_STOCK } from '@graphql/operations/subscription/shop-product';
 
 
 @Injectable({
@@ -134,6 +135,15 @@ export class ProductsService extends ApiService {
       resultList.push(this.setInObject(shopObject, showDescription));
     });
     return resultList;
+  }
+
+  stockUpdateListener(id: number){
+    return this.subscription(
+      SUBSCRIPTIONS_PRODUCT_SELECT_STOCK,
+      {id}
+    ).pipe(map((result: any) => {
+      return result.selectProductStockUpdate;
+    }));
   }
 }
 

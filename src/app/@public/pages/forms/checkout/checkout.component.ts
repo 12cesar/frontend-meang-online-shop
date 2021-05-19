@@ -3,10 +3,12 @@ import { Router } from '@angular/router';
 import { CURRENCY_CODE } from '@core/constants/config';
 import { IMail } from '@core/interfaces/mail.interface';
 import { IMedata } from '@core/interfaces/session.interface';
+import { IStock } from '@core/interfaces/stock.interface.';
 import { ICharge } from '@core/interfaces/stripe/charge.interface';
 import { IPayment } from '@core/interfaces/stripe/payment.interface';
 import { AuthService } from '@core/services/auth.service';
 import { MailService } from '@core/services/mail.service';
+import { IProduct } from '@mugan86/ng-shop-ui/lib/interfaces/product.interface';
 import { StripePaymentService } from '@mugan86/stripe-payment-form';
 import { infoEventAlert, loadData } from '@shared/alert/alerts';
 import { TYPE_ALERT } from '@shared/alert/values.config';
@@ -72,10 +74,19 @@ export class CheckoutComponent implements OnInit {
             customer: this.meData.user.stripeCustomer,
             currency: CURRENCY_CODE
           };
+          const stockManage: Array<IStock> = [];
+          this.cartService.cart.products.map((item: IProduct) => {
+            stockManage.push(
+              {
+                id: +item.id,
+                increment: item.qty * (-1)
+              }
+            );
+          });
           this.block = true;
           loadData('Realizando el pago', 'Espera mientras se procesa la informacion de pago');
           // Enviar la informacion y procesar el pago
-          this.chargeService.pay(payment).pipe(take(1)).subscribe(async  (result: {
+          this.chargeService.pay(payment, stockManage).pipe(take(1)).subscribe(async  (result: {
             status: boolean,
             message: string,
             charge: ICharge
