@@ -7,6 +7,8 @@ import { formBasicDialog, optionsWithDetails } from '@shared/alert/alerts';
 import { basicAlert } from '@shared/alert/toasts';
 import { TYPE_ALERT } from '@shared/alert/values.config';
 import { TagsAdminService } from './tags-admin.service';
+import { TitleService } from '@admin/core/services/title.service';
+import { LABEL } from '@admin/core/constans/title.constans';
 
 @Component({
   selector: 'app-tags',
@@ -20,8 +22,10 @@ export class TagsComponent implements OnInit {
   resultData: IResultData;
   include: boolean;
   columns: Array<ITableColumns>;
-  constructor(private service: TagsAdminService) {}
+
+  constructor(private service: TagsAdminService, private titleService: TitleService) {}
   ngOnInit(): void {
+    this.titleService.updateTitle(LABEL.TAGS);
     this.context = {};
     this.itemsPage = 10;
     this.resultData = {

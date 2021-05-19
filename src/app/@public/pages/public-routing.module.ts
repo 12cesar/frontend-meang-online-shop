@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('./games/games.module').then(m => m.GamesModule)
       },
       {
+        path: 'faq',
+        loadChildren: () => import('./faq/faq.module').then(m => m.FaqModule)
+      },
+      {
         path: 'contact',
         loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule)
       },

@@ -5,6 +5,7 @@ import { IMenuItem } from '@core/interfaces/menu-item.interface';
 import { IMedata } from '@core/interfaces/session.interface';
 import { AuthService } from '@core/services/auth.service';
 import shopMenuItems from '@data/menus/shop.json';
+import { optionsWithDetails } from '@shared/alert/alerts';
 import { CartService } from '@shop/core/services/cart.service.ts.service';
 import { ICart } from '../shopping-cart/shopping-cart.interface';
 @Component({
@@ -41,13 +42,8 @@ userLabel = '';
     // tslint:disable-next-line: no-unused-expression
     this.cartsItemsTotal = this.cartService.initialize().subtotal;
   }
-  logout(){
-    // rutas que usaremos para rediceccionar
-    if (REDIRECTS_ROUTES.includes(this.router.url)) {
-      // En el caso de encontrarla marcamos para redireccionar
-      localStorage.setItem('route_after_login', this.router.url);
-    }
-    this.authService.resetSession();
+  async logout(){
+    this.authService.resetSession(this.router.url);
   }
   open(){
     this.cartService.open();

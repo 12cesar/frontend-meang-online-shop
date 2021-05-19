@@ -9,6 +9,8 @@ import { IRegisterForm } from '../../../@core/interfaces/register.interface';
 import { basicAlert } from '@shared/alert/toasts';
 import { TYPE_ALERT } from '@shared/alert/values.config';
 import { ACTIVE_FILTERS } from '@core/constants/filter';
+import { TitleService } from '@admin/core/services/title.service';
+import { LABEL } from '@admin/core/constans/title.constans';
 
 @Component({
   selector: 'app-users',
@@ -23,10 +25,12 @@ export class UsersComponent implements OnInit {
   include: boolean;
   columns: Array<ITableColumns>;
   filterActiveValues = ACTIVE_FILTERS.ACTIVE;
-  constructor(private service: UsersAdminService){
+
+  constructor(private service: UsersAdminService, private titleService: TitleService){
 
   }
   ngOnInit(): void {
+    this.titleService.updateTitle(LABEL.USERS);
     this.context = {};
     this.itemsPage = 10;
     this.resultData = {

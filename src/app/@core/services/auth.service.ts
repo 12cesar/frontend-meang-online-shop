@@ -6,6 +6,8 @@ import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 import { IMedata, ISession } from '@core/interfaces/session.interface';
 import { Subject } from 'rxjs';
+import { optionsWithDetails } from '@shared/alert/alerts';
+import { REDIRECTS_ROUTES } from '@core/constants/config';
 
 @Injectable({
   providedIn: 'root',
@@ -75,7 +77,22 @@ export class AuthService extends ApiService {
   getSession(): ISession {
     return JSON.parse(localStorage.getItem('session'));
   }
-  resetSession() {
+  async resetSession(routesUrl: string = '') {
+    const result = await optionsWithDetails(
+      'Cerrar sesión',
+      `¿Estas seguro que quieres cerrar la sesion?`,
+      450,
+      'Si, cerrar', // true
+      'No'
+    );
+    if (!result) {
+      return;
+    }
+    // rutas que usaremos para rediceccionar
+    if (REDIRECTS_ROUTES.includes(routesUrl)) {
+      // En el caso de encontrarla marcamos para redireccionar
+      localStorage.setItem('route_after_login', routesUrl);
+    }
     localStorage.removeItem('session');
     this.updateSession({
       status: false,
